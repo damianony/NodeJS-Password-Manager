@@ -99,21 +99,29 @@ var command = argv._[0];
 
 if (command === 'create' && typeof argv.name != 'undefined' 
 	&& typeof argv.username != 'undefined' && typeof argv.password != 'undefined') {
-    var createdAccount = createAccount ({
-		name: argv.name,
-		username: argv.username,
-		password: argv.password
-	}, argv.masterPassword);
-	console.log(createdAccount);
-	console.log("New account created!");
+    try {
+	    var createdAccount = createAccount ({
+			name: argv.name,
+			username: argv.username,
+			password: argv.password
+		}, argv.masterPassword);
+		console.log(createdAccount);
+		console.log("New account created!");
+	} catch (e) {
+		console.log('Unable to create account.');
+	}
 } else if (command === 'get' && typeof argv.name != 'undefined') {
-	var fetchedAccount = getAccount(argv.name, argv.masterPassword);
+	try {
+		var fetchedAccount = getAccount(argv.name, argv.masterPassword);
 
-	if(typeof fetchedAccount === 'undefined') {
-		console.log('Account not found');
-	} else {
-		console.log(fetchedAccount);
-		console.log("Got account!");
+		if(typeof fetchedAccount === 'undefined') {
+			console.log('Account not found');
+		} else {
+			console.log(fetchedAccount);
+			console.log("Got account!");
+		}
+	} catch(e) {
+		console.log('Unable to fetch account!');
 	}
 } else {
 	console.log("Invalid Arguments");
